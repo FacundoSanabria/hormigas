@@ -1,8 +1,18 @@
 <?php
-    $inputMatrix = getInputMatrix();
+    if(!isset($argv[1])){
+        echo "Ingrese un archivo de entrada";
+        return 0;
+    }
+    $fileName = $argv[1];
+    $inputMatrix = getInputMatrix($fileName);
+    
+    if( !count($inputMatrix) || !isset($inputMatrix[0]) || !count($inputMatrix[0])){
+        echo "Error, archivo invalido";
+        return 0;
+    }
     $rows = count($inputMatrix);
     $cols = count($inputMatrix[0]);
-
+    
     $outputMatrix = [];
     for($i=0; $i<$rows; $i++){
         $outputMatrix[$i] = [];
@@ -48,9 +58,9 @@
         return $neighbours;
     }
 
-    function getInputMatrix(){
-        $inputFile = fopen("TestInputs/test6.json", "r") or die("Unable to open file!");
-        $matrix = json_decode(fread($inputFile,filesize("TestInputs/test6.json")));
+    function getInputMatrix($fileName){
+        $inputFile = fopen($fileName, "r") or die("Unable to open file!");
+        $matrix = json_decode(fread($inputFile,filesize($fileName)));
         fclose($inputFile);
         return $matrix;
     }
