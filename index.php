@@ -2,8 +2,6 @@
     $inputMatrix = getInputMatrix();
     $rows = count($inputMatrix);
     $cols = count($inputMatrix[0]);
-    echo PHP_EOL."Entrada:".PHP_EOL;
-    printMatrix($inputMatrix, $rows, $cols);
 
     $outputMatrix = [];
     for($i=0; $i<$rows; $i++){
@@ -19,7 +17,6 @@
         }     
     }  
 
-    echo PHP_EOL.PHP_EOL."Salida".PHP_EOL;
     printMatrix($outputMatrix, $rows, $cols);
 
     function calculatNeighbours($inputMatrix, $rows, $cols, $i, $j){
@@ -52,8 +49,8 @@
     }
 
     function getInputMatrix(){
-        $inputFile = fopen("TestInputs/matrix1.json", "r") or die("Unable to open file!");
-        $matrix = json_decode(fread($inputFile,filesize("TestInputs/matrix1.json")));
+        $inputFile = fopen("TestInputs/test6.json", "r") or die("Unable to open file!");
+        $matrix = json_decode(fread($inputFile,filesize("TestInputs/test6.json")));
         fclose($inputFile);
         return $matrix;
     }
