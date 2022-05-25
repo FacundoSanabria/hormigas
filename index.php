@@ -1,14 +1,55 @@
 <?php
-    $matrix = getInputMatrix();
-    $rows = count($matrix);
-    $cols = count($matrix[0]);
+    $inputMatrix = getInputMatrix();
+    $rows = count($inputMatrix);
+    $cols = count($inputMatrix[0]);
     echo PHP_EOL."Entrada:".PHP_EOL;
-    printMatrix($matrix, $rows, $cols);
+    printMatrix($inputMatrix, $rows, $cols);
 
+    $outputMatrix = [];
+    for($i=0; $i<$rows; $i++){
+        $outputMatrix[$i] = [];
+        for($j=0; $j<$cols; $j++){
+            $neighbours = calculatNeighbours($inputMatrix, $rows, $cols, $i, $j);
+            if($neighbours == 3 || ($neighbours == 2 && $inputMatrix[$i][$j] == 1)){
+                $outputMatrix[$i][$j] = 1;
+            }
+            else{
+                $outputMatrix[$i][$j] = 0;
+            }  
+        }     
+    }  
 
     echo PHP_EOL.PHP_EOL."Salida".PHP_EOL;
-    printMatrix($matrix, $rows, $cols);
+    printMatrix($outputMatrix, $rows, $cols);
 
+    function calculatNeighbours($inputMatrix, $rows, $cols, $i, $j){
+        $neighbours = 0;
+        if($i!=0){
+            $neighbours += $inputMatrix[($i-1)][$j]; 
+            if($j!=0){
+                $neighbours += $inputMatrix[($i-1)][($j-1)]; 
+            }
+            if($j<$cols-1){
+                $neighbours += $inputMatrix[($i-1)][($j+1)];
+            }
+        }
+        if($j != 0){
+            $neighbours += $inputMatrix[($i)][$j-1]; 
+            if($i<$rows-1){
+                $neighbours += $inputMatrix[($i+1)][($j-1)]; 
+            }
+        }
+        if($i<$rows-1){
+            $neighbours += $inputMatrix[($i+1)][($j)];
+            if($j<$cols-1){
+                $neighbours += $inputMatrix[($i+1)][($j+1)]; 
+            }
+        }
+        if($j<$cols-1){
+            $neighbours += $inputMatrix[($i)][($j+1)];
+        }
+        return $neighbours;
+    }
 
     function getInputMatrix(){
         $inputFile = fopen("TestInputs/matrix1.json", "r") or die("Unable to open file!");
